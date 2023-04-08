@@ -1,10 +1,10 @@
-import Todo from "./comps/Todo";
+
 
 
 function App() {
   return (
     <div className="App">
-      <Todo/>
+      ffffffffffffff
     </div>
   );
 }
