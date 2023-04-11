@@ -6,6 +6,7 @@ function ColorSchemesExample() {
     <>
       <Navbar  bg="dark" variant="dark">
         <Container
+        className="justify-content-center"
         >
           <Navbar.Brand >TODO LIST</Navbar.Brand>
           
