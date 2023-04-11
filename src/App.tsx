@@ -4,7 +4,6 @@ interface ITask {
   deadline: number;
 }
 
-
 function App() {
   const [task, setTask] = useState<string>('');
   const [deadline, setDealine] = useState<number>(0);
