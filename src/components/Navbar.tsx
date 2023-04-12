@@ -1,15 +1,19 @@
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
+import { Nav } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
+import { Link } from "react-router-dom";
 
 function ColorSchemesExample() {
   return (
     <>
-      <Navbar  bg="dark" variant="dark">
-        <Container
-        className="justify-content-center"
-        >
-          <Navbar.Brand >TODO LIST</Navbar.Brand>
-          
+      <Navbar bg="dark" variant="dark">
+        <Container className="justify-content-between">
+          <Navbar.Brand>TODO LIST</Navbar.Brand>
+          <Nav>
+            <Nav.Link>
+              <Link style={{color:"white", textDecoration:"none", fontWeight:"700"}} to="/ar">AR</Link>
+            </Nav.Link>
+          </Nav>
         </Container>
       </Navbar>
       {/* <br />
