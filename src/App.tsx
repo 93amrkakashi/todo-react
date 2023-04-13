@@ -3,13 +3,13 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/esm/Button";
 import CloseButton from "react-bootstrap/esm/CloseButton";
 import Navbar from "./components/Navbar";
+
 interface ITask {
   taskName: string;
 }
 
 function App() {
   const [task, setTask] = useState<string>("");
-  // const [deadline, setDealine] = useState<number>(0);
   const [todoList, setTodoList] = useState<ITask[]>(() => {
     try {
       const storedTodos = localStorage.getItem("todos");
@@ -19,6 +19,20 @@ function App() {
       return [];
     }
   });
+
+  // Set up the notification interval
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (todoList.length > 0 && Notification.permission === "granted") {
+        new Notification("You have tasks to complete!", {
+          body: "Don't forget to complete your todos.",
+        });
+      }
+    }, 1000 * 60 * 30); // 30 minutes in milliseconds
+
+    // Clean up the interval on unmount
+    return () => clearInterval(intervalId);
+  }, [todoList]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     if (event.target.name === "task") {
@@ -61,14 +75,6 @@ function App() {
             value={task}
             onChange={handleChange}
           />
-
-          {/* <Form.Control className='w-75 m-2' required
-            type="number"
-            placeholder="Deadline (in Days)..."
-            name="deadline"
-            value={deadline}
-            onChange={handleChange}
-             /> */}
         </Form>
         <Button
           className="w-75"
@@ -86,11 +92,9 @@ function App() {
             key={Math.random()}
           >
             <h1>{todo.taskName}</h1>
-            {/* <button className='position-absolute t-2 r-2' >X</button> */}
             <CloseButton
               onClick={() => completeTask(todo.taskName)}
               variant="white"
-              
             />
           </div>
         ))}
