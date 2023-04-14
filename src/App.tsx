@@ -61,7 +61,7 @@ function App() {
     if (Notification.permission === "granted" && todoList.length > 0) {
       const intervalId = setInterval(() => {
         new Notification(`You have ${todoList.length} todos to do!`);
-      }, 1 * 60 * 1000); // 30 minutes in milliseconds
+      }, 30 * 60 * 1000); // 30 minutes in milliseconds
 
       return () => clearInterval(intervalId);
     }
