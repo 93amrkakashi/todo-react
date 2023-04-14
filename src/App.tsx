@@ -20,20 +20,6 @@ function App() {
     }
   });
 
-  // Set up the notification interval
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (todoList.length > 0 && Notification.permission === "granted") {
-        new Notification("You have tasks to complete!", {
-          body: "Don't forget to complete your todos.",
-        });
-      }
-    }, 1000 * 60 * 30); // 30 minutes in milliseconds
-
-    // Clean up the interval on unmount
-    return () => clearInterval(intervalId);
-  }, [todoList]);
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     if (event.target.name === "task") {
       setTask(event.target.value);
@@ -59,6 +45,27 @@ function App() {
       console.error(err);
     }
   }, [todoList]);
+
+  useEffect(() => {
+    if (Notification.permission === "granted" && todoList.length > 0) {
+      const intervalId = setInterval(() => {
+        new Notification(`You have ${todoList.length} todos to do!`);
+      }, 1 * 60 * 1000); // 30 minutes in milliseconds
+
+      return () => clearInterval(intervalId);
+    }
+  }, [todoList]);
+
+  const requestNotificationPermission = async () => {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission !== "granted") {
+        throw new Error("Permission not granted for Notifications");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -99,6 +106,9 @@ function App() {
           </div>
         ))}
       </div>
+      <Button onClick={requestNotificationPermission}>
+        Request Notification Permission
+      </Button>
     </>
   );
 }
