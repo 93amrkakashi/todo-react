@@ -46,16 +46,6 @@ function App() {
     }
   }, [todoList]);
 
-  useEffect(() => {
-    if (Notification.permission === "granted" && todoList.length > 0) {
-      const intervalId = setInterval(() => {
-        new Notification(`You have ${todoList.length} todos to do!`);
-      }, 1 * 60 * 1000); // 30 minutes in milliseconds
-
-      return () => clearInterval(intervalId);
-    }
-  }, [todoList]);
-
   const requestNotificationPermission = async () => {
     try {
       const permission = await Notification.requestPermission();
@@ -66,6 +56,20 @@ function App() {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    if (Notification.permission === "granted" && todoList.length > 0) {
+      const intervalId = setInterval(() => {
+        new Notification(`You have ${todoList.length} todos to do!`);
+      }, 1 * 60 * 1000); // 30 minutes in milliseconds
+
+      return () => clearInterval(intervalId);
+    }
+  }, [todoList]);
+
+  useEffect(() => {
+    requestNotificationPermission()
+  },[])
 
   return (
     <>
@@ -106,9 +110,9 @@ function App() {
           </div>
         ))}
       </div>
-      <Button onClick={requestNotificationPermission}>
+      {/* <Button onClick={requestNotificationPermission}>
         Request Notification Permission
-      </Button>
+      </Button> */}
     </>
   );
 }
